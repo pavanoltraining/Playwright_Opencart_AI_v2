@@ -8,7 +8,7 @@ node_modules/
 
 
 # Environment & secrets 
-#.env
+.env
 
 #  Playwright test artifacts 
 /test-results/
