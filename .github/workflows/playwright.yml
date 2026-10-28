@@ -58,7 +58,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: ⚙️ Create .env File
-        run: Copy-Item .env.sample .env
+        run: Copy-Item .env.example .env
 
       - name: 🧪 Run Playwright Tests
         run: |

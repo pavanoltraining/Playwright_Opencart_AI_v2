@@ -53,13 +53,13 @@ This base image includes the Playwright browser runtime, all required system dep
 
 ## Files in This Project
 
-| File | What It Does |
-|---|---|
-| `Dockerfile` | Defines the Docker image — starts from `playwright:v1.62.0-noble`, installs npm dependencies, copies source code, sets up the entrypoint. |
-| `docker-compose.yml` | Orchestrates the container — tells Docker which image to build, which files to mount, which environment variables to use, and which test suite to run. |
-| `docker-entrypoint.sh` | A smart script that translates a simple suite name (like `sanity` or `api`) into the correct `npm run` command. You never need to edit this. |
-| `.dockerignore` | Tells Docker which files to skip when building the image (e.g., `node_modules`, `.env`, old reports). Keeps the image small and secure. |
-| `.env.example` | A template showing all available environment variables. Copy it to `.env` and fill in your values. |
+| File                   | What It Does                                                                                                                                           |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Dockerfile`           | Defines the Docker image — starts from `playwright:v1.62.0-noble`, installs npm dependencies, copies source code, sets up the entrypoint.              |
+| `docker-compose.yml`   | Orchestrates the container — tells Docker which image to build, which files to mount, which environment variables to use, and which test suite to run. |
+| `docker-entrypoint.sh` | A smart script that translates a simple suite name (like `sanity` or `api`) into the correct `npm run` command. You never need to edit this.           |
+| `.dockerignore`        | Tells Docker which files to skip when building the image (e.g., `node_modules`, `.env`, old reports). Keeps the image small and secure.                |
+| `.env.example`         | A template showing all available environment variables. Copy it to `.env` and fill in your values.                                                     |
 
 ---
 
@@ -95,11 +95,13 @@ This should print system information without errors. If you get a permission err
 ### Step 1: Open a terminal in the project folder
 
 **Windows (PowerShell):**
+
 ```powershell
 cd C:\Automation\POC_Playwright_opencart_AI_2
 ```
 
 **macOS / Linux:**
+
 ```bash
 cd /path/to/POC_Playwright_opencart_AI_2
 ```
@@ -109,11 +111,13 @@ cd /path/to/POC_Playwright_opencart_AI_2
 The project uses a `.env` file to store settings like URLs and login credentials. A template already exists — you just need to copy it:
 
 **Windows (PowerShell):**
+
 ```powershell
 Copy-Item .env.example .env
 ```
 
 **macOS / Linux:**
+
 ```bash
 cp .env.example .env
 ```
@@ -141,6 +145,7 @@ docker compose build
 ```
 
 This command:
+
 1. Reads `docker-compose.yml` and `Dockerfile`
 2. Downloads the `mcr.microsoft.com/playwright:v1.62.0-noble` base image (first time only)
 3. Installs all npm dependencies with `npm ci`
@@ -173,6 +178,7 @@ docker compose run --rm playwright-tests <suite-name>
 ```
 
 Let's break this down:
+
 - `docker compose run` — starts a one-off container (not the same as `docker compose up`)
 - `--rm` — automatically deletes the container after tests finish (keeps your disk clean)
 - `playwright-tests` — the service name defined in `docker-compose.yml`
@@ -180,17 +186,17 @@ Let's break this down:
 
 ### Available Test Suites
 
-| Command | What It Runs | Tag Filter |
-|---|---|---|
-| `docker compose run --rm playwright-tests` | **All tests** (no filter) | — |
-| `docker compose run --rm playwright-tests all` | Same as above — all tests | — |
-| `docker compose run --rm playwright-tests sanity` | Sanity tests only | `@sanity` |
-| `docker compose run --rm playwright-tests regression` | Regression tests only | `@regression` |
-| `docker compose run --rm playwright-tests web` | Web UI tests only | `@web` |
-| `docker compose run --rm playwright-tests api` | API tests only | `@api` |
-| `docker compose run --rm playwright-tests master` | Master suite | `@master` |
-| `docker compose run --rm playwright-tests e2e` | End-to-end tests | `@e2e` |
-| `docker compose run --rm playwright-tests datadriven` | Data-driven tests | `@datadriven` |
+| Command                                               | What It Runs              | Tag Filter    |
+| ----------------------------------------------------- | ------------------------- | ------------- |
+| `docker compose run --rm playwright-tests`            | **All tests** (no filter) | —             |
+| `docker compose run --rm playwright-tests all`        | Same as above — all tests | —             |
+| `docker compose run --rm playwright-tests sanity`     | Sanity tests only         | `@sanity`     |
+| `docker compose run --rm playwright-tests regression` | Regression tests only     | `@regression` |
+| `docker compose run --rm playwright-tests web`        | Web UI tests only         | `@web`        |
+| `docker compose run --rm playwright-tests api`        | API tests only            | `@api`        |
+| `docker compose run --rm playwright-tests master`     | Master suite              | `@master`     |
+| `docker compose run --rm playwright-tests e2e`        | End-to-end tests          | `@e2e`        |
+| `docker compose run --rm playwright-tests datadriven` | Data-driven tests         | `@datadriven` |
 
 ### 1. Run All Tests
 
@@ -289,13 +295,13 @@ After tests finish, all output is automatically saved to your computer because `
 
 ### Where to find everything
 
-| Host Directory | What's Inside | How to Open |
-|---|---|---|
-| `./reports/` | Playwright HTML report (`index.html`) | `npx playwright show-report reports/` |
-| `./allure-results/` | Raw Allure JSON data | Used by Allure CLI to generate a report |
-| `./allure-report/` | Generated Allure HTML report | Open `index.html` in a browser |
-| `./custom-report/` | Custom reporter output | Open `index.html` in a browser |
-| `./test-results/` | Screenshots, videos, traces (on failure) | Browse the folder directly |
+| Host Directory      | What's Inside                            | How to Open                             |
+| ------------------- | ---------------------------------------- | --------------------------------------- |
+| `./reports/`        | Playwright HTML report (`index.html`)    | `npx playwright show-report reports/`   |
+| `./allure-results/` | Raw Allure JSON data                     | Used by Allure CLI to generate a report |
+| `./allure-report/`  | Generated Allure HTML report             | Open `index.html` in a browser          |
+| `./custom-report/`  | Custom reporter output                   | Open `index.html` in a browser          |
+| `./test-results/`   | Screenshots, videos, traces (on failure) | Browse the folder directly              |
 
 ### View the Playwright HTML Report
 
@@ -304,6 +310,7 @@ npx playwright show-report reports/
 ```
 
 This opens a nice interactive report in your browser where you can see:
+
 - Which tests passed / failed
 - Error messages and stack traces
 - Screenshots of failures
@@ -326,16 +333,19 @@ If you don't have Allure CLI, you can still browse the raw JSON files in `allure
 Simply open the `test-results/` folder in your file explorer:
 
 **Windows:**
+
 ```powershell
 explorer test-results
 ```
 
 **macOS:**
+
 ```bash
 open test-results
 ```
 
 **Linux:**
+
 ```bash
 xdg-open test-results
 ```
@@ -424,7 +434,7 @@ Then log out and back in (or restart your session).
 Make sure your test files have the correct tag. For example, to run `sanity` tests, your test must have:
 
 ```typescript
-test('should login successfully @sanity', async ({ page }) => {
+test("should login successfully @sanity", async ({ page }) => {
   // ...
 });
 ```
@@ -432,11 +442,15 @@ test('should login successfully @sanity', async ({ page }) => {
 Or using the test annotation syntax:
 
 ```typescript
-test('should login successfully', {
-  tag: '@sanity',
-}, async ({ page }) => {
-  // ...
-});
+test(
+  "should login successfully",
+  {
+    tag: "@sanity",
+  },
+  async ({ page }) => {
+    // ...
+  },
+);
 ```
 
 ### "ENOENT: no such file or directory" for docker-entrypoint.sh
